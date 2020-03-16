@@ -16,11 +16,5 @@
     </ul>
 </div>
 
-<!-- Utiliizamos el pipe async para que la suscripcion y desuscripcion se realice en nuestro template. Declarando a task en nuestro template como un observable de task-->
-<ng-container *ngIf="tasks$ | async as tasks"> <!-- once suscribe -->
-    <ul *ngIf="tasks.length > 0">
-      <li *ngFor="let task of tasks">
-        {{ task.title }}
-      </li>
-    </ul>
-</ng-container>
+<!-- Utilizando a nuestro dumb component. Al trabajar de esta forma lo "medios de comunicación son los @input y los @outputs" -->
+<app-app-todo-list [tasks]="tasks$ | async"></app-app-todo-list>
