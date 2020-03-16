@@ -1,1 +1,26 @@
 <h2>Tasks w/ async pipe: </h2>
+
+<!-- Utiliizamos el pipe async para que la suscripcion y desuscripcion se realice en nuestro template. Desafortunadamente realizamos una suscripcion dentro de otra o suscribiendonos 2 veces al mismo observable -->
+<ul *ngIf="(tasks$ | async).length"> <!-- suscribe -->
+    <li *ngFor="let task of tasks$ | async"> <!-- suscribe -->
+    {{ task.title }}
+    </li>
+</ul>
+
+<!-- Utiliizamos el pipe async para que la suscripcion y desuscripcion se realice en nuestro template. Declarando a task en nuestro template como un observable de task-->
+<div *ngIf="tasks$ | async as tasks"> <!-- once suscribe -->
+    <ul *ngIf="tasks.length > 0">
+      <li *ngFor="let task of tasks">
+        {{ task.title }}
+      </li>
+    </ul>
+</div>
+
+<!-- Utiliizamos el pipe async para que la suscripcion y desuscripcion se realice en nuestro template. Declarando a task en nuestro template como un observable de task-->
+<ng-container *ngIf="tasks$ | async as tasks"> <!-- once suscribe -->
+    <ul *ngIf="tasks.length > 0">
+      <li *ngFor="let task of tasks">
+        {{ task.title }}
+      </li>
+    </ul>
+</ng-container>

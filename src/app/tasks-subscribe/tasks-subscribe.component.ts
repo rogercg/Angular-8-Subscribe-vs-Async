@@ -1,4 +1,4 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Component, OnInit, OnDestroy, ChangeDetectionStrategy, ChangeDetectorRef } from '@angular/core';
 import { Observable, Subject } from 'rxjs';
 import { Task } from '../task.model';
 import { TasksServiceService } from '../tasks-service.service';
@@ -8,12 +8,13 @@ import { takeUntil } from 'rxjs/operators';
   selector: 'app-tasks-subscribe',
   templateUrl: './tasks-subscribe.component.html',
   styleUrls: ['./tasks-subscribe.component.css'],
+  changeDetection: ChangeDetectionStrategy.OnPush// Cambiamos la estrategia que permite el data-binding a OnPush
 })
 export class TasksSubscribeComponent implements OnInit, OnDestroy{
   tasks: Task[] = [];
   private unsubscribe$ = new Subject<void>(); // 
   
-  constructor(private tasksService: TasksServiceService) { }
+  constructor(private tasksService: TasksServiceService, private cd: ChangeDetectorRef) { }
 
   ngOnInit() {
     this.tasksService.getTasks()
@@ -22,6 +23,7 @@ export class TasksSubscribeComponent implements OnInit, OnDestroy{
     )
     .subscribe(tasks=>{
       this.tasks = tasks;// Asignamos el valor que nos retorna a una variable de nuestro componente y poder renderizarlo
+      this.cd.markForCheck();// Comunicamos el ChangeDetecttion manualmente para notiicar cambios a nuestro componente
     });
   }
 
